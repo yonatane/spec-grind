@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [boolean keyword])
   (:require [clojure.spec :as s]
             [clj-time.coerce]
+            [clj-uuid :refer [uuidable? as-uuid]]
             [spec-grind.coerce :refer [as-int as-number as-boolean]]))
 
 (alias 'c 'clojure.core)
@@ -69,3 +70,6 @@
 
 (def keyword
   (s/conformer #(or (c/keyword %) ::s/invalid)))
+
+(def uuid
+  (s/and some? uuidable? (s/conformer as-uuid)))

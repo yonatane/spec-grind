@@ -52,4 +52,11 @@
   (is (= :a-key (s/conform ::g/keyword "a-key")))
   (is (= ::s/invalid (s/conform ::g/keyword 1)))
   (is (= ::s/invalid (s/conform ::g/keyword nil)))
+
+  (are [x y] (= x (s/conform ::g/uuid y))
+    #uuid"58cd0579-fa0b-450e-ac6b-92170ba0f296" #uuid"58cd0579-fa0b-450e-ac6b-92170ba0f296"
+    #uuid"58cd0579-fa0b-450e-ac6b-92170ba0f296" "58cd0579-fa0b-450e-ac6b-92170ba0f296"
+    ::s/invalid "not a uuid"
+    ::s/invalid 1
+    ::s/invalid nil)
   )
