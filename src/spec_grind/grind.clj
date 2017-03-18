@@ -1,6 +1,7 @@
 (ns spec-grind.grind
   (:refer-clojure :exclude [boolean])
-  (:require [clojure.spec :as s]))
+  (:require [clojure.spec :as s]
+            [clj-time.coerce]))
 
 
 ;; Utils
@@ -41,3 +42,8 @@
                   "true" true
                   "false" false
                   ::s/invalid))))))
+
+(def inst
+  (s/and
+    #(satisfies? clj-time.coerce/ICoerce %)
+    (s/conformer #(or (clj-time.coerce/to-date %) ::s/invalid))))

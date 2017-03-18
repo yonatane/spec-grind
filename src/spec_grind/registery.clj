@@ -4,3 +4,4 @@
 
 
 (s/def ::g/boolean g/boolean)
+(s/def ::g/inst g/inst)

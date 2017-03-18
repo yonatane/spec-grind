@@ -4,7 +4,8 @@
             :url "https://opensource.org/licenses/MIT"}
   :url "https://github.com/yonatane/spec-grind"
 
-  :dependencies [[org.clojure/clojure "1.9.0-alpha15"]]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha15"]
+                 [clj-time "0.13.0"]]
 
   :pedantic? :abort
   :global-vars {*warn-on-reflection* true}
