@@ -47,4 +47,9 @@
   (is (= -1.5 (s/conform ::g/number "-1.5")))
   (is (= ::s/invalid (s/conform ::g/number "not a number")))
   (is (= ::s/invalid (s/conform ::g/number nil)))
+
+  (is (= :a-key (s/conform ::g/keyword :a-key)))
+  (is (= :a-key (s/conform ::g/keyword "a-key")))
+  (is (= ::s/invalid (s/conform ::g/keyword 1)))
+  (is (= ::s/invalid (s/conform ::g/keyword nil)))
   )

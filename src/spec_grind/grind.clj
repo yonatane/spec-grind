@@ -1,8 +1,10 @@
 (ns spec-grind.grind
-  (:refer-clojure :exclude [boolean])
+  (:refer-clojure :exclude [boolean keyword])
   (:require [clojure.spec :as s]
             [clj-time.coerce]
             [spec-grind.coerce :refer [as-int as-number as-boolean]]))
+
+(alias 'c 'clojure.core)
 
 
 ;; Utils
@@ -26,7 +28,7 @@
 ;; Grinders
 
 (defmacro simple-or [& preds]
-  (let [tags (map keyword
+  (let [tags (map c/keyword
                   (repeatedly (count preds)
                               #(gensym "tag")))
         prepared (interleave tags preds)]
@@ -64,3 +66,6 @@
     number?
     (s/and string?
            (s/conformer #(or (as-number %) ::s/invalid)))))
+
+(def keyword
+  (s/conformer #(or (c/keyword %) ::s/invalid)))

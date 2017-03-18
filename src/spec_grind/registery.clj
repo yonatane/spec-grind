@@ -8,3 +8,4 @@
 (s/def ::g/pos-int g/pos-int)
 (s/def ::g/nat-int g/nat-int)
 (s/def ::g/number g/number)
+(s/def ::g/keyword g/keyword)
