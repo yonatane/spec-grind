@@ -1,7 +1,8 @@
 (ns spec-grind.grind
   (:refer-clojure :exclude [boolean])
   (:require [clojure.spec :as s]
-            [clj-time.coerce]))
+            [clj-time.coerce]
+            [spec-grind.coerce :refer [as-int as-number as-boolean]]))
 
 
 ;; Utils
@@ -35,15 +36,31 @@
 (def boolean
   (simple-or
     boolean?
-    (s/and
-      string?
-      (s/conformer
-        (fn [x] (case x
-                  "true" true
-                  "false" false
-                  ::s/invalid))))))
+    (s/and string?
+           (s/conformer #(if-some [b (as-boolean %)]
+                           b
+                           ::s/invalid)))))
 
 (def inst
-  (s/and
-    #(satisfies? clj-time.coerce/ICoerce %)
-    (s/conformer #(or (clj-time.coerce/to-date %) ::s/invalid))))
+  (s/and #(satisfies? clj-time.coerce/ICoerce %)
+         (s/conformer #(or (clj-time.coerce/to-date %) ::s/invalid))))
+
+(def pos-int
+  (simple-or
+    pos-int?
+    (s/and string?
+           (s/conformer #(or (as-int %) ::s/invalid))
+           pos-int?)))
+
+(def nat-int
+  (simple-or
+    nat-int?
+    (s/and string?
+           (s/conformer #(or (as-int %) ::s/invalid))
+           nat-int?)))
+
+(def number
+  (simple-or
+    number?
+    (s/and string?
+           (s/conformer #(or (as-number %) ::s/invalid)))))
