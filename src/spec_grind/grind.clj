@@ -12,14 +12,14 @@
 
 (defn conform-or-throw [spec x]
   (let [conformed (s/conform spec x)]
-    (if (not= ::s/invalid conformed)
+    (if-not (s/invalid? conformed)
       conformed
       (let [^String msg (s/explain-str spec x)]
         (throw (Exception. msg))))))
 
 (defn conformed [spec x]
   (let [result (s/conform spec x)]
-    (when (not= ::s/invalid result)
+    (when-not (s/invalid? result)
       result)))
 
 (defn explained [spec x]
