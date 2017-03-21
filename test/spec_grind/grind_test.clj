@@ -59,4 +59,8 @@
     ::s/invalid "not a uuid"
     ::s/invalid 1
     ::s/invalid nil)
+
+  (is (= "a" (s/conform (g/no-tag-or string? int?) "a")))
+  (is (= 1 (s/conform (g/no-tag-or string? int?) 1)))
+  (is (= ::s/invalid (s/conform (g/no-tag-or string? int?) :k)))
   )

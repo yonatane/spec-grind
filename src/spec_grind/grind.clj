@@ -1,9 +1,11 @@
 (ns spec-grind.grind
   (:refer-clojure :exclude [boolean keyword])
-  (:require [clojure.spec :as s]
-            [clj-time.coerce]
+  (:require [clj-time.coerce]
             [clj-uuid :refer [uuidable? as-uuid]]
-            [spec-grind.coerce :refer [as-int as-number as-boolean]]))
+            [clojure.spec :as s]
+            [spec-grind.coerce :refer [as-int as-number as-boolean]]
+            [spec-grind.impl :as gi]
+            [spec-grind.spec :as gs]))
 
 (alias 'c 'clojure.core)
 
@@ -28,16 +30,13 @@
 
 ;; Grinders
 
-(defmacro simple-or [& preds]
-  (let [tags (map c/keyword
-                  (repeatedly (count preds)
-                              #(gensym "tag")))
-        prepared (interleave tags preds)]
-    `(s/and (s/or ~@prepared)
-            (s/conformer val))))
+(defmacro no-tag-or [& pred-forms]
+  (let [pf (mapv gs/res pred-forms)
+        pred-forms (vec pred-forms)]
+    `(gi/no-tag-or-spec-impl '~pf ~pred-forms)))
 
 (def boolean
-  (simple-or
+  (no-tag-or
     boolean?
     (s/and string?
            (s/conformer #(if-some [b (as-boolean %)]
@@ -49,21 +48,21 @@
          (s/conformer #(or (clj-time.coerce/to-date %) ::s/invalid))))
 
 (def pos-int
-  (simple-or
+  (no-tag-or
     pos-int?
     (s/and string?
            (s/conformer #(or (as-int %) ::s/invalid))
            pos-int?)))
 
 (def nat-int
-  (simple-or
+  (no-tag-or
     nat-int?
     (s/and string?
            (s/conformer #(or (as-int %) ::s/invalid))
            nat-int?)))
 
 (def number
-  (simple-or
+  (no-tag-or
     number?
     (s/and string?
            (s/conformer #(or (as-number %) ::s/invalid)))))
