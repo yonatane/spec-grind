@@ -1,4 +1,4 @@
-(defproject spec-grind "0.1.2-SNAPSHOT"
+(defproject spec-grind "0.1.2"
   :description "Treating clojure spec as a meat grinder"
   :license {:name "The MIT License"
             :url "https://opensource.org/licenses/MIT"}
