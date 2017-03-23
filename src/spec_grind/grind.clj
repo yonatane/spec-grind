@@ -35,6 +35,24 @@
         pred-forms (vec pred-forms)]
     `(gi/no-tag-or-spec-impl '~pf ~pred-forms)))
 
+(defn keyz-impl [args]
+  (let [expected-keys (-> #{}
+                          (into (:req-keys args))
+                          (into (:opt-keys args)))]
+    (s/and
+      ;TODO: make a deny spec with explaination.
+      #(every? expected-keys (c/keys %))
+      (s/map-spec-impl args))))
+
+(defmacro keyz [& {:as args-map}]
+  (let [deny (:deny args-map)
+        _ (c/assert (or (nil? deny) (= deny :rest)) ":deny arg can only be :rest")
+        keys-arg-map (dissoc args-map :deny)
+        keys-args (reduce into [] keys-arg-map)
+        keys-expanded (macroexpand `(s/keys ~@keys-args))
+        map-spec-impl-args (second keys-expanded)]
+    `(keyz-impl ~map-spec-impl-args)))
+
 (def boolean
   (no-tag-or
     boolean?

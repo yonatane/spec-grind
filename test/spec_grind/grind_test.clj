@@ -63,4 +63,13 @@
   (is (= "a" (s/conform (g/no-tag-or string? int?) "a")))
   (is (= 1 (s/conform (g/no-tag-or string? int?) 1)))
   (is (= ::s/invalid (s/conform (g/no-tag-or string? int?) :k)))
+
+  (are [x y] (= x (s/conform (g/keyz :req [(or ::a ::b)]
+                                     :req-un [::req-un]
+                                     :opt [::opt]
+                                     :opt-un [::opt-un]
+                                     :deny :rest) y))
+    {::a 1 :req-un 2} {::a 1 :req-un 2}
+    ::s/invalid {::a 1 :req-un 2 :unexpected 3}
+    ::s/invalid {::a 1})
   )
