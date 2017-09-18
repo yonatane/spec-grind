@@ -1,6 +1,6 @@
 (ns spec-grind.registery
   (:require [spec-grind.grind :as g]
-            [clojure.spec :as s]))
+            [clojure.spec.alpha :as s]))
 
 
 (s/def ::g/boolean g/boolean)

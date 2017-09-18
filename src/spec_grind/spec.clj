@@ -1,7 +1,7 @@
 (ns spec-grind.spec
   (:refer-clojure :exclude [+ * and assert or cat def keys merge])
-  (:require [clojure.spec.gen :as gen]
-            [clojure.spec :as s]
+  (:require [clojure.spec.gen.alpha :as gen]
+            [clojure.spec.alpha :as s]
             [clojure.walk :as walk]))
 
 (alias 'c 'clojure.core)

@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [boolean keyword])
   (:require [clj-time.coerce]
             [clj-uuid :refer [uuidable? as-uuid]]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [spec-grind.coerce :refer [as-int as-number as-boolean]]
             [spec-grind.impl :as gi]
             [spec-grind.spec :as gs]))

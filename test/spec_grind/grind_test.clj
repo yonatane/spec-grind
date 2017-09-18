@@ -1,5 +1,5 @@
 (ns spec-grind.grind-test
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [clojure.test :refer :all]
             [spec-grind.grind :as g]
             [spec-grind.registery])
